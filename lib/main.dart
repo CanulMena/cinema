@@ -1,7 +1,12 @@
+import 'package:cinema/presentation/screens/movies/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cinema/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+
+  await dotenv.load(fileName: ".env");
+
   runApp(const MainApp());
 }
 
@@ -14,9 +19,7 @@ class MainApp extends StatelessWidget {
       theme: AppTheme().getTheme(),
       debugShowCheckedModeBanner: false,
       home: const Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+        body: HomeScreen()
       ),
     );
   }

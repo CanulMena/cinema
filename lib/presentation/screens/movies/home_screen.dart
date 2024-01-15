@@ -1,3 +1,4 @@
+import 'package:cinema/config/constants/enviroment.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,8 +9,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Placeholder(),
+    return Scaffold(
+      body: Center(
+        //*Esta es una buena forma de llamar a las variables de entorno por medio del paquete flutter_dontenv
+        child: Text(Enviroment.movieDbKey),
+      ),
     );
   }
 }
