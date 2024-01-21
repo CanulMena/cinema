@@ -43,6 +43,7 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     Decoration decoration = BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [

@@ -13,10 +13,14 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movi
   });
 
 
-typedef MovieCallBack = Future<List<Movie>> Function({ int page });
+
+typedef MovieCallBack = Future<List<Movie>> Function({ int page }); //!Esta fuera del MoviesStateNotifier - creamos una referencia
+
+
 
 class MoviesNotifier extends StateNotifier<List<Movie>>{
   
+  bool isLoading = false;
   int currentPage = 0; 
   MovieCallBack fetchMoreMovies;
 
@@ -25,9 +29,13 @@ class MoviesNotifier extends StateNotifier<List<Movie>>{
   }): super([]);
 
   Future<void> loadNextPage() async{ 
-    currentPage++;
-    final List<Movie> movies = await fetchMoreMovies(page: currentPage); 
+    if( isLoading ) return; //si es verdadero cerramos la funcion
+
+    isLoading = true;
+    currentPage++; //nos cambiamos a la otra pagina
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage); //aca ejecutamos la funcion
     state = [...state, ...movies];
+    isLoading = false;//se cambia a false para que se pueda iterar
   }
 }
 
