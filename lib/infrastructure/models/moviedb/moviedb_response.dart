@@ -16,7 +16,7 @@ class MovieDbResponse {
     });
     //haremos uso de un metodo constructor con nombre
                                     //*Este mapa es un mapa enorme que contiene toda la lista de peliculas que estan en la cartelera
-    factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(
+    factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(//convierto la peticion http a este tipo de dato que en este caso es MoiveDbResponse de esta forma si cambia el tipo de dato de la api lo cambiamos aquí
         dates: json["dates"] != null ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
         results: List<MovieMovieDB>.from(json["results"].map((x) => MovieMovieDB.fromJson(x))),
@@ -24,7 +24,7 @@ class MovieDbResponse {
         totalResults: json["total_results"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => { //Convierto el tipo de dato a un json
         "dates": dates == null ? null : dates!.toJson(),
         "page": page,
         "results": List<dynamic>.from(results.map((x) => x.toJson())),

@@ -9,8 +9,23 @@ class MovieRepositoryImpl extends MoviesRepository {
   MovieRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Movie>> getNowPlaying({int page = 1}) {
+  Future<List<Movie>> getNowPlaying({int page = 1}) { //*No agregamos el asyng para solo obtener la referencia
     return datasource.getNowPlaying( page: page);
+  }
+  
+  @override
+  Future<List<Movie>> getPopular({int page = 1}) { //*No agregamos el asyng para solo obtener la referencia
+    return datasource.getPopular( page: page );
+  }
+  
+  @override
+  Future<List<Movie>> getTopReated({int page = 1}) { //*No agregamos el asyng para solo obtener la referencia
+    return datasource.topReated( page: page );
+  }
+  
+  @override
+  Future<List<Movie>> getUpcoming({int page = 1}) { //*No agregamos el asyng para solo obtener la referencia
+    return datasource.upcoming( page: page );
   }
 
 }
