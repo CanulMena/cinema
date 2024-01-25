@@ -10,5 +10,7 @@ abstract class MoviesRepository {
   Future<List<Movie>> getTopReated({ int page = 1});
 
   Future<List<Movie>> getUpcoming({ int page = 1});
+
+  Future<Movie> getDetailMovie( String id );
   
 }

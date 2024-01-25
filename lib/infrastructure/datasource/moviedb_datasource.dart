@@ -3,6 +3,7 @@ import 'package:cinema/config/constants/enviroment.dart';
 import 'package:cinema/domain/datasource/movies_datasource.dart';
 import 'package:cinema/domain/entities/movie.dart';
 import 'package:cinema/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinema/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinema/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
@@ -68,7 +69,7 @@ class MoviedbDatasource extends MoviesDatasource {
     return movies;
   }
   
-  @override
+  @override//!4
   Future<List<Movie>> upcoming({int page = 1}) async {  //*al usar el async quitamos la referencia Future
   final response = await dio.get('/movie/upcoming',
   queryParameters: {
@@ -80,5 +81,16 @@ class MoviedbDatasource extends MoviesDatasource {
   final List<Movie> movies = movieDbReponse.results.map((e) => MovieMapper.movieDBToEntity(e)).toList();
     return movies;
   }
+  
+  @override
+  Future<Movie> getDetailMovie( String id ) async {
+    
+    final response = await dio.get('/movie/$id');
 
+    final movieDbResponse = MovieDetails.fromJson(response.data);
+
+    final Movie movie = MovieMapper.movieDetailToEntity(movieDbResponse);
+
+    return movie;
+  }
 }

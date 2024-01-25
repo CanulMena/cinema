@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinema/config/helpers/human_formats.dart';
 import 'package:cinema/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MoviesHorizontalListView extends StatefulWidget {
   final List<Movie> movies;
@@ -121,7 +122,7 @@ class _Slide extends StatelessWidget {
             SizedBox(
               //*movie container
               width:
-                  150, //al estar invertido el width del listView es la altura
+                  150, //al estar invertido, el width del listView es la altura
               child: ClipRRect(
                 //Tengo que agregarle el espacio que tomará como limite - Tarea del sizebox
                 borderRadius: BorderRadius.circular(20),
@@ -134,8 +135,11 @@ class _Slide extends StatelessWidget {
                         strokeWidth: 2,
                       );
                     }
-                    return FadeIn(
-                      child: child,
+                    return GestureDetector(
+                      onTap: () => context.push('/movie/${movie.id}'),
+                      child: FadeIn(
+                        child: child,
+                      ),
                     );
                   },
                 ),
