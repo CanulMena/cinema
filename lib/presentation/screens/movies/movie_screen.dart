@@ -1,4 +1,6 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cinema/domain/entities/movie.dart';
+import 'package:cinema/presentation/providers/actors/actors_providers.dart';
 import 'package:cinema/presentation/providers/movies/movie_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,14 +20,16 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   @override
   void initState() {
     ref.read(movieDetailsProvider.notifier).loadMovieDetail(widget.movieId);
+    ref.read(actorsMovieProvider.notifier).loadActors(widget.movieId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //movieDetails esta haciendo referencia del mapa
+    
+    //? final movieMapDetails = ref.watch(movieDetailsProvider)[widget.movieId];
     final movieMapDetails = ref.watch(movieDetailsProvider);
-    final movieDetail = movieMapDetails[widget.movieId];//movieDetail tiene el movie que regresa el http
+    final movieDetail = movieMapDetails[widget.movieId];
     //esperamos a hacer la peticion http - para mostrar lo que queramos
     if (movieDetail == null) {
       return const Scaffold(
@@ -44,9 +48,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               childCount: 1,
-              (context, index) => _MovieDetails( movieDetail: movieDetail,)
+              (context, index) => _MovieDetails( movieDetail: movieDetail, )
               )
-            )
+            ),
         ],
       ),
     );
@@ -96,7 +100,7 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
 
-        Padding(
+        Padding(//Generos de la pelicula 
           padding: const EdgeInsets.all(8.0),
           child: Wrap( //gracias a wrap agrega un margin o padding en el bottom
             children: [
@@ -111,9 +115,66 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
 
+        const SizedBox(height: 10,),
+
+        _ActorsByMovie( movieId: movieDetail.id.toString(), ),
+
         const SizedBox(height: 100,),
 
       ],
+    );
+  }
+}
+
+class _ActorsByMovie extends ConsumerWidget {
+  final String movieId;
+  const _ActorsByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final actorsByMovie = ref.watch(actorsMovieProvider);
+    if( actorsByMovie[movieId] == null) return const CircularProgressIndicator(strokeWidth: 2);
+    final actors = actorsByMovie[movieId];
+
+    return SizedBox(//el tamaño de todo el contenedor que tendrá todo
+      height: 300,
+      child: ListView.builder(//!Tengo que la altura del ListView.builder
+      scrollDirection: Axis.horizontal,
+      itemCount: actors!.length,
+      itemBuilder: (context, index) {
+        final actor = actors[index];
+        return Container(
+          //*Contenedor principal
+          padding: const EdgeInsets.all(8),
+          child: FadeInRight(
+            child: Column(//!tengo que predefinir la altura de una columna
+              children: [
+          
+                ClipRRect(//image container 
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    actor.profilePath,
+                    height: 190,
+                    width: 135,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+          
+                const SizedBox( height: 5,),
+          
+                Text(actor.name, maxLines: 2,),
+          
+                Text(actor.character, style: const TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.w600
+                ),),
+          
+                
+              ],
+            ),
+          )
+          );
+      },
+      ),
     );
   }
 }
@@ -128,7 +189,7 @@ class _CustomSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
-      floating: true,
+      // floating: true,
       expandedHeight: size.height * 0.7, //controlar la altura del sliverAppbar
       foregroundColor:
           Colors.white, //el color predefinido de las letras y iconos
