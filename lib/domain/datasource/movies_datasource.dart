@@ -12,4 +12,6 @@ abstract class  MoviesDatasource {
 
   Future<Movie> getDetailMovie( String id ); //*nunca quitamos el async para dejar la referencia del future
 
+  Future<List<Movie>> searchMovies( String query);
+
 } 

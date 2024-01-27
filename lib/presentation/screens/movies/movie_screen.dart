@@ -119,7 +119,7 @@ class _MovieDetails extends StatelessWidget {
 
         _ActorsByMovie( movieId: movieDetail.id.toString(), ),
 
-        const SizedBox(height: 100,),
+        const SizedBox(height: 5,),
 
       ],
     );
