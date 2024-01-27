@@ -29,7 +29,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
   @override
   void initState() {
     super.initState();
-    //?Por que tenemos que agregar un addListener?
+    //?Por que tenemos que agregar un addListener? -- tienes que estar pendiente que hagamos scroll ( los pixeles de la pantalla )
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return; //Al agregar argumentos en la propiedad del widget siemrpe será null.
       if(scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent){
@@ -49,7 +49,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350,
-      child: Column(
+      child: Column(//siempre definir el tamaño de un widget
         children: [
           if (widget.title != null || widget.subTitle != null)
             _Tile(
@@ -119,10 +119,9 @@ class _Slide extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
-            SizedBox(
-              //*movie container
-              width:
-                  150, //al estar invertido, el width del listView es la altura
+            
+            SizedBox(//* image movie container
+              width: 150, //al estar invertido, el width del listView es la altura              
               child: ClipRRect(
                 //Tengo que agregarle el espacio que tomará como limite - Tarea del sizebox
                 borderRadius: BorderRadius.circular(20),
@@ -131,8 +130,13 @@ class _Slide extends StatelessWidget {
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
-                      return const CircularProgressIndicator(
-                        strokeWidth: 2,
+                      return const SizedBox(
+                        height: 150,
+                        child: Center(
+                          child: CircularProgressIndicator( //?Aca tengo que arreglar el error
+                            strokeWidth: 2,
+                          ),
+                        ),
                       );
                     }
                     return GestureDetector(
@@ -145,8 +149,8 @@ class _Slide extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              //*title, calification movie - container
+
+            Container( //*title, calification movie - container
               width: 150,
               margin: const EdgeInsets.only(top: 10),
               child: Column(
@@ -176,6 +180,7 @@ class _Slide extends StatelessWidget {
                 ],
               ),
             )
+
           ],
         ));
   }

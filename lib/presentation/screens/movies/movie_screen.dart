@@ -26,7 +26,6 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     //? final movieMapDetails = ref.watch(movieDetailsProvider)[widget.movieId];
     final movieMapDetails = ref.watch(movieDetailsProvider);
     final movieDetail = movieMapDetails[widget.movieId];
@@ -40,17 +39,18 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return Scaffold(
-      body: CustomScrollView( //? Sin los custtomScrollView no puedo hacer uso de los Slivers
+      body: CustomScrollView(
+        //? Sin los custtomScrollView no puedo hacer uso de los Slivers
         slivers: [
           _CustomSliver(
             movie: movieDetail,
-          ), 
+          ),
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 1,
-              (context, index) => _MovieDetails( movieDetail: movieDetail, )
-              )
-            ),
+              delegate: SliverChildBuilderDelegate(
+                  childCount: 1,
+                  (context, index) => _MovieDetails(
+                        movieDetail: movieDetail,
+                      ))),
         ],
       ),
     );
@@ -68,58 +68,64 @@ class _MovieDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Padding(
+          //*Detalles de la pelicula
           padding: const EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-        
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
                   movieDetail.posterPath,
                   width: size.width * 0.3,
-                  ),
+                ),
               ),
-        
-              const SizedBox(width: 10,),
-
+              const SizedBox(
+                width: 10,
+              ),
               SizedBox(
                 width: (size.width - 40) * 0.7,
-                child: Column(//siempre tengo que predefinir el tamaño que tomarán los widgets - (width)
+                child: Column(
+                  //siempre tengo que predefinir el tamaño que tomarán los widgets - (width)
                   children: [
-                    Text(movieDetail.title, style: textStyle.titleLarge,),
-              
+                    Text(
+                      movieDetail.title,
+                      style: textStyle.titleLarge,
+                    ),
                     Text(movieDetail.overview),
                   ],
                 ),
               )
-              
             ],
           ),
         ),
-
-        Padding(//Generos de la pelicula 
+        Padding(
+          //*Generos de la pelicula
           padding: const EdgeInsets.all(8.0),
-          child: Wrap( //gracias a wrap agrega un margin o padding en el bottom
+          child: Wrap(
             children: [
-            ...movieDetail.genreIds.map((genre) => Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: Chip(
-                label: Text(genre),
-                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20) ),
-                )
-            ),)
+              ...movieDetail.genreIds.map(
+                (genre) => Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: Chip(
+                      label: Text(genre),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    )),
+              )
             ],
           ),
         ),
 
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
 
-        _ActorsByMovie( movieId: movieDetail.id.toString(), ),
-
-        const SizedBox(height: 5,),
+        _ActorsByMovie(
+          movieId: movieDetail.id.toString(),
+        ),
+        
 
       ],
     );
@@ -133,53 +139,70 @@ class _ActorsByMovie extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final actorsByMovie = ref.watch(actorsMovieProvider);
-    if( actorsByMovie[movieId] == null) return const CircularProgressIndicator(strokeWidth: 2);
+    if (actorsByMovie[movieId] == null) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
     final actors = actorsByMovie[movieId];
 
-    return SizedBox(//el tamaño de todo el contenedor que tendrá todo
+    return SizedBox(
+      //el tamaño de todo el contenedor que tendrá todo
       height: 300,
-      child: ListView.builder(//!Tengo que la altura del ListView.builder
-      scrollDirection: Axis.horizontal,
-      itemCount: actors!.length,
-      itemBuilder: (context, index) {
-        final actor = actors[index];
-        return Container(
-          //*Contenedor principal
-          padding: const EdgeInsets.all(8),
-          child: FadeInRight(
-            child: Column(//!tengo que predefinir la altura de una columna
-              children: [
-          
-                ClipRRect(//image container 
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    actor.profilePath,
-                    height: 190,
-                    width: 135,
-                    fit: BoxFit.cover,
-                  ),
+      child: ListView.builder(
+        //!Tengo que definir la altura del ListView.builder
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: actors!.length,
+        itemBuilder: (context, index) {
+          final actor = actors[index];
+          return Container(
+              //*Contenedor principal
+              padding: const EdgeInsets.all(8),
+              child: FadeInRight(
+                child: Column(
+                  //!tengo que predefinir la altura de una columna
+                  children: [
+                    ClipRRect(
+                      //image container
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        actor.profilePath,
+                        height: 190,
+                        width: 135,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: 135,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                          actor.name,
+                          maxLines: 2,
+                          ),
+                          Text(
+                            actor.character,
+                            style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 2,
+                            softWrap: true,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  ],
                 ),
-          
-                const SizedBox( height: 5,),
-          
-                Text(actor.name, maxLines: 2,),
-          
-                Text(actor.character, style: const TextStyle(
-                  fontSize: 15, fontWeight: FontWeight.w600
-                ),),
-          
-                
-              ],
-            ),
-          )
-          );
-      },
+              ));
+        },
       ),
     );
   }
 }
-
-
 
 class _CustomSliver extends StatelessWidget {
   final Movie movie;
@@ -197,7 +220,8 @@ class _CustomSliver extends StatelessWidget {
       flexibleSpace: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: FlexibleSpaceBar(
-            titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            titlePadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             title: Text(
               movie.title,
               style: const TextStyle(fontSize: 20),
@@ -205,49 +229,38 @@ class _CustomSliver extends StatelessWidget {
             ),
             background: Stack(
               children: [
-                SizedBox.expand(//Tengo que predefinir el tamaño de la foto
+                SizedBox.expand(
+                  //Tengo que predefinir el tamaño de la foto
                   child: Image.network(
                     movie.posterPath,
                     fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox.expand(
-                  child: DecoratedBox(//tengo que predefinir el tamaño del decoretedbox
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        stops: [
-                          0.65, 1.0
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black87
-                        ]
-                      )
-                    )
-                  ),
+                  child: DecoratedBox(
+                      //tengo que predefinir el tamaño del decoretedbox
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              stops: [0.65, 1.0],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Colors.transparent, Colors.black87]))),
                 ),
                 const SizedBox.expand(
-                  child: DecoratedBox(//tengo que predefinir el tamaño del decoretedbox
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        stops: [
-                          0.0, 0.3
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Colors.black87,
-                          Colors.transparent,
-                        ]
-                      )
-                    )
-                  ),
+                  child: DecoratedBox(
+                      //tengo que predefinir el tamaño del decoretedbox
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              stops: [0.0, 0.3],
+                              begin: Alignment.topLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.black87,
+                                Colors.transparent,
+                              ]))),
                 )
               ],
-            )
-        ),
+            )),
       ),
     );
   }
