@@ -115,13 +115,15 @@ class _Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyles = Theme.of(context).textTheme;
-    return Container(
+    return Container(//! image movie - information movie contianer
+      
         margin: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
             
             SizedBox(//* image movie container
-              width: 150, //al estar invertido, el width del listView es la altura              
+              width: 150,
+              // height: 215,            
               child: ClipRRect(
                 //Tengo que agregarle el espacio que tomará como limite - Tarea del sizebox
                 borderRadius: BorderRadius.circular(20),
@@ -130,13 +132,10 @@ class _Slide extends StatelessWidget {
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
-                      return const SizedBox(
-                        height: 150,
-                        child: Center(
+                      return const Center(
                           child: CircularProgressIndicator( //?Aca tengo que arreglar el error
                             strokeWidth: 2,
                           ),
-                        ),
                       );
                     }
                     return GestureDetector(
@@ -149,10 +148,10 @@ class _Slide extends StatelessWidget {
                 ),
               ),
             ),
-
+        
             Container( //*title, calification movie - container
               width: 150,
-              margin: const EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 8),
               child: Column(
                 children: [
                   Text(
@@ -180,7 +179,7 @@ class _Slide extends StatelessWidget {
                 ],
               ),
             )
-
+        
           ],
         ));
   }

@@ -42,7 +42,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       body: CustomScrollView(
         //? Sin los custtomScrollView no puedo hacer uso de los Slivers
         slivers: [
-          _CustomSliver(
+          _CustomSliverAppBar(
             movie: movieDetail,
           ),
           SliverList(
@@ -204,9 +204,9 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliver extends StatelessWidget {
+class _CustomSliverAppBar extends StatelessWidget {
   final Movie movie;
-  const _CustomSliver({required this.movie});
+  const _CustomSliverAppBar({required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +216,7 @@ class _CustomSliver extends StatelessWidget {
       expandedHeight: size.height * 0.7, //controlar la altura del sliverAppbar
       foregroundColor:
           Colors.white, //el color predefinido de las letras y iconos
-      backgroundColor: Colors.white, //color de fondo
+      backgroundColor: Colors.black, //color de fondo
       flexibleSpace: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: FlexibleSpaceBar(
@@ -229,13 +229,19 @@ class _CustomSliver extends StatelessWidget {
             ),
             background: Stack(
               children: [
+
                 SizedBox.expand(
                   //Tengo que predefinir el tamaño de la foto
                   child: Image.network(
                     movie.posterPath,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if( loadingProgress != null) return const SizedBox();
+                      return FadeIn(child: child);
+                    },
                   ),
                 ),
+
                 const SizedBox.expand(
                   child: DecoratedBox(
                       //tengo que predefinir el tamaño del decoretedbox
