@@ -1,5 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+
+
 class Enviroment{
 
   //*en esta clase tendremos la variables de entorno predefinidas para no tener problemas al momento de llamarlas

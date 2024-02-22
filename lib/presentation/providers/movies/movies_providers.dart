@@ -45,9 +45,9 @@ class MoviesNotifier extends StateNotifier<List<Movie>>{
     if( isLoading ) return; //si es verdadero cerramos la funcion
 
     isLoading = true;
-    currentPage++; //nos cambiamos a la otra pagina
-    final List<Movie> movies = await fetchMoreMovies(page: currentPage); //*aca ejecutamos la funcion por eso ponemos el await para quitar el Future y ejecutar la funcion para obtener las listas
-    state = [...state, ...movies];
+    // currentPage++; //nos cambiamos a la otra pagina si tu api tiene paginacion
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage);
+    // state = [...state, ...movies]; Puedes quitar esto por que las peliculas ya se guardaron en movies
     await Future.delayed( const Duration(milliseconds: 300) );
     isLoading = false;//se cambia a false para que se pueda iterar
   }

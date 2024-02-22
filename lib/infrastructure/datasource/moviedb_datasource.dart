@@ -40,7 +40,7 @@ class MoviedbDatasource extends MoviesDatasource {
     queryParameters: {
       'page' : page 
     }
-    );
+    );  
 
     final movieDbResponse = MovieDbResponse.fromJson(response.data);
 

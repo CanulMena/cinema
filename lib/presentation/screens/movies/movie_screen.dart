@@ -242,7 +242,7 @@ class _CustomSliverAppBar extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox.expand(
+                const SizedBox.expand( //!Estos son los gradientes 
                   child: DecoratedBox(
                       //tengo que predefinir el tamaño del decoretedbox
                       decoration: BoxDecoration(
@@ -252,7 +252,7 @@ class _CustomSliverAppBar extends StatelessWidget {
                               end: Alignment.bottomCenter,
                               colors: [Colors.transparent, Colors.black87]))),
                 ),
-                const SizedBox.expand(
+                const SizedBox.expand( //!Estos son los gradientes 
                   child: DecoratedBox(
                       //tengo que predefinir el tamaño del decoretedbox
                       decoration: BoxDecoration(

@@ -1,4 +1,3 @@
-import 'package:cinema/domain/repositories/movies_repository.dart';
 import 'package:cinema/presentation/delegates/search_movie_delegate.dart';
 import 'package:cinema/presentation/providers/movies/movies_repository_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,8 @@ class CustomAppbar extends ConsumerWidget {
 
     return SafeArea(
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SizedBox(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: SizedBox(
         width: double.infinity,
         child: Row(
           children: [
@@ -26,24 +25,20 @@ class CustomAppbar extends ConsumerWidget {
               'Cinemedia',
               style: titleStyle,
             ),
-        
             const Spacer(),
-        
             IconButton(
-              onPressed: () {
-                showSearch(//*Esta funcion es la encargada en trabajar la busqueda
-                context: context, 
-                delegate: SearchMoviesDelegate(
-                  searchMovie: ref.read(movieRepositoryProvider).searchMovies
-                )
-                );
-              }, 
-              icon:const Icon(Icons.search_rounded)
-              )
-              
+                onPressed: () {
+                  showSearch(
+                      //*Esta funcion es la encargada en trabajar la busqueda
+                      context: context,
+                      delegate: SearchMoviesDelegate(
+                          searchMovie:
+                              ref.read(movieRepositoryProvider).searchMovies));
+                },
+                icon: const Icon(Icons.search_rounded))
           ],
         ),
-            ),
-          ));
+      ),
+    ));
   }
 }

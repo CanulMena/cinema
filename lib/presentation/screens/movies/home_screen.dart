@@ -43,8 +43,6 @@ class HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final initialLoading = ref.watch(initialLoadingProvider);
-    if( initialLoading ) return const FullScreenLoading();
 
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
@@ -52,6 +50,9 @@ class HomeViewState extends ConsumerState<_HomeView> {
     final upcomingMovies = ref.watch(upcomingMoviesProvider);
     final moviesSlideShow = ref.watch(moviesSlideShowProvider);
 
+    final initialLoading = ref.watch(initialLoadingProvider);
+    if( initialLoading ) return const FullScreenLoading();
+    
     return CustomScrollView(
       //podremos tener control sobre los Sliver - un Sliver es un widget que trabaja directamente con el scrollView
       slivers: [

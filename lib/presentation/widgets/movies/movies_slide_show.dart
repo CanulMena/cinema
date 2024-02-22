@@ -24,7 +24,7 @@ class MoviesSlideShow extends StatelessWidget {
             movie: movie,
           ); //toma el espacio disponible
         },
-        pagination: SwiperPagination(//existen mas tipos de swiper
+        pagination: SwiperPagination(//existen mas tipos de swiperPagination
           builder: DotSwiperPaginationBuilder(//tiene mas tipos para mostrar la pantalla
             activeColor: colors.primary,
             color: colors.secondary

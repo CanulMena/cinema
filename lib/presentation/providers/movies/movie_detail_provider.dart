@@ -1,4 +1,3 @@
-
 import 'package:cinema/domain/entities/movie.dart';
 import 'package:cinema/presentation/providers/movies/movies_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,6 @@ final movieDetailsProvider = StateNotifierProvider<MovieMapNotifier, Map<String,
     getMovie: movieRepository
   );
 });
-
 
 /*
   {

@@ -8,8 +8,7 @@ class MoviesHorizontalListView extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
   final String? subTitle;
-  final VoidCallback? loadNextPage; //este tipo de valor tiene una funcion - puede ser activdada desde aquí 
-  //gracias a este voidCallBack que activamos por la funcion que pasamos podemos hacer que nuetro codigo no dependa de un gestor de estado. Así lo hacemos independiente
+  final VoidCallback? loadNextPage; 
 
   const MoviesHorizontalListView(
       {super.key,
@@ -29,6 +28,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
   @override
   void initState() {
     super.initState();
+    
     //?Por que tenemos que agregar un addListener? -- tienes que estar pendiente que hagamos scroll ( los pixeles de la pantalla )
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return; //Al agregar argumentos en la propiedad del widget siemrpe será null.
@@ -40,8 +40,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
 
   @override
   void dispose() {
-    scrollController
-        .dispose(); //*eliminamos el controller antes que se destruya el widget
+    scrollController.dispose(); //*eliminamos el controller antes que se destruya el widget
     super.dispose();
   }
 
@@ -49,7 +48,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350,
-      child: Column(//siempre definir el tamaño de un widget
+      child: Column(
         children: [
           if (widget.title != null || widget.subTitle != null)
             _Tile(
@@ -57,7 +56,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
               subTitle: widget.subTitle,
             ),
           Expanded(
-            //*Utilizamos el expanded para indicarle al listview cuanto espacio vertical / horizontal tomará
+            //*Utilizamos el expanded para indicarle al listview cuanto espacio vertical / horizontal que tomará
             child: ListView.builder(
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
